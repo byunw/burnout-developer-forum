@@ -8,7 +8,7 @@ import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 @EnableWebSecurity
-public class WebSecurityConfig {
+public class WebSecurityConfig{
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception
@@ -17,8 +17,11 @@ public class WebSecurityConfig {
         http
                 .authorizeHttpRequests((requests) -> requests
                         .requestMatchers("/login").permitAll()
-                        .anyRequest().authenticated());
-
+                        .anyRequest().authenticated())
+                .formLogin((form) -> form
+                    .defaultSuccessUrl("/welcome")
+                    .failureUrl("/access-deny")
+                    .permitAll());
         return http.build();
 
     }
